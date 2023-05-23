@@ -6,7 +6,8 @@ from dataclasses import dataclass
 from nodes.keyword_generation_node import KeywordOutput
 from transformers import BartForConditionalGeneration, PreTrainedTokenizerFast
 import torch
-from kiwipiepy import Kiwi
+from kss import split_sentences
+# from kiwipiepy import Kiwi
 
 @dataclass
 class QuestionGenerationOutput:
@@ -19,7 +20,7 @@ class BartForQGNode(BaseComponent):
     def __init__(self, model_path):
         self.tokenizer = PreTrainedTokenizerFast.from_pretrained("hyunwoongko/kobart")
         self.model = BartForConditionalGeneration.from_pretrained(model_path)
-        self.sent_tok = Kiwi()
+        # self.sent_tok = Kiwi()
 
     def run(self, keywords: List[str], doc_content: str) -> Tuple[Dict, str]:
 
@@ -57,8 +58,9 @@ class BartForQGNode(BaseComponent):
         answer_end_idx = answer_start_idx + len(answer) + len(start_token)
         context = self.insert_token(context, answer_start_idx, start_token)
         context = self.insert_token(context, answer_end_idx, end_token)
-
-        sentences = [sent.text for sent in self.sent_tok.split_into_sents(context)]
+        
+        sentences = split_sentences(context)
+        # sentences = [sent.text for sent in self.sent_tok.split_into_sents(context)]
 
         answer_sentence_idx = None
         for i, sent in enumerate(sentences):
