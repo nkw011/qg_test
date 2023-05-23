@@ -1,0 +1,24 @@
+pydantic~=1.10.4
+
+# backend
+fastapi~=0.89.1
+uvicorn~=0.20.0
+
+# transformer
+sentencepiece
+transformers
+
+pytesseract
+pymupdf
+farm-haystack=1.15.0
+
+# 한국어 문장 관련
+scipy>=1.8.0
+kss~=4.4.0
+
+kiwipiepy~=0.14.1
+dataclasses~=0.6
+requests~=2.28.2
+
+# torch
+torch
