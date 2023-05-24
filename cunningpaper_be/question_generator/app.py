@@ -11,6 +11,21 @@ import uvicorn
 import os
 from fastapi.middleware.cors import CORSMiddleware
 
+# app = FastAPI()
+#
+# origins = [
+#     # "http://localhost",
+#     "http://localhost:3000",
+# ]
+#
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
+
 middleware = [
     Middleware(
         CORSMiddleware,
@@ -30,6 +45,8 @@ summary_pipeline = SummaryPipeline()
 
 FILE_NAME = "dummy.txt"
 UPLOADFILE_DIR = "upload_file_directory"
+
+app = FastAPI()
 
 @app.post("/upload")
 async def upload_file(data: UploadFile = File(...)):
@@ -82,6 +99,14 @@ def make_quiz():
 @app.get("/")
 async def hello():
     return {"hello, world"}
+
+@app.on_event("startup")
+def start_up():
+    pass
+
+@app.on_event("shutdown")
+def shut_down():
+    pass
 
 
 if __name__ == "__main__":
