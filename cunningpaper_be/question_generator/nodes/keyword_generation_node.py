@@ -3,7 +3,7 @@ from model.NERExtractor import NERExtractor
 from haystack import BaseComponent
 from haystack.schema import Document
 from typing import List, Tuple, Dict
-# from kiwipiepy import Kiwi
+from kiwipiepy import Kiwi
 from dataclasses import dataclass
 from tqdm import tqdm
 from utils.postprocess import keyword_post_process
@@ -25,7 +25,7 @@ class KeywordNode(BaseComponent):
         self.full_trained_model = AnswerExtractor()
         self.best_valid_model = AnswerExtractor()
         # self.ner_model = NERExtractor()
-        # self.tagger = Kiwi()
+        self.tagger = Kiwi()
 
         self.full_trained_model.load_from_pretrained(MODEL_CHECKPOINT["full_trained"])
         self.best_valid_model.load_from_pretrained(MODEL_CHECKPOINT["best_valid"])
@@ -49,10 +49,10 @@ class KeywordNode(BaseComponent):
             #     if len(t) > 1:
             #         keyword.add(t)
 
-            # if len(full_trained_keyword) > self.threshold:
-            #     full_trained_keyword= keyword_post_process(self.tagger, full_trained_keyword)
-            # if len(best_valid_keyword) > self.threshold:
-            #     best_valid_keyword = keyword_post_process(self.tagger, best_valid_keyword)
+            if len(full_trained_keyword) > self.threshold:
+                full_trained_keyword= keyword_post_process(self.tagger, full_trained_keyword)
+            if len(best_valid_keyword) > self.threshold:
+                best_valid_keyword = keyword_post_process(self.tagger, best_valid_keyword)
 
             keyword.add(full_trained_keyword)
             keyword.add(best_valid_keyword)

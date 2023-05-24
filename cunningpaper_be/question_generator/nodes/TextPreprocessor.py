@@ -3,6 +3,7 @@ from model.NERExtractor import NERExtractor
 from haystack import BaseComponent
 from haystack.schema import Document
 from typing import List, Tuple, Dict
+from kiwipiepy import Kiwi
 from tqdm import tqdm
 from kss import split_sentences
 
